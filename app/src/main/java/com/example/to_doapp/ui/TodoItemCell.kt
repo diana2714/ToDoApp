@@ -2,6 +2,7 @@ package com.example.to_doapp.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import com.example.to_doapp.data.model.Importance
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,9 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.example.to_doapp.data.model.TodoItem
 
@@ -34,8 +38,7 @@ fun TodoItemCell(todoItem: TodoItem, onCheckedChange: (Boolean) -> Unit) {
             modifier = Modifier.size(24.dp),
             colors = CheckboxDefaults.colors(
                 checkedColor = Color(0xFF4CAF50),
-                uncheckedColor = Color.Gray,
-                checkmarkColor = Color.White
+                uncheckedColor = if(todoItem.importance == Importance.HIGH)Color.Red else Color.Gray
             )
         )
 
@@ -47,15 +50,23 @@ fun TodoItemCell(todoItem: TodoItem, onCheckedChange: (Boolean) -> Unit) {
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = todoItem.text,
+                text = buildAnnotatedString {
+                    if (todoItem.importance == Importance.HIGH) {
+                        withStyle(style = SpanStyle(color = Color.Red)) {
+                            append("!! ")
+                        }
+                    }
+                    append(todoItem.text)
+                },
                 style = MaterialTheme.typography.bodyMedium.copy(
-                    color = if (todoItem.isCompleted) Color.Gray else Color.Black,
                     textDecoration = if (todoItem.isCompleted) TextDecoration.LineThrough else TextDecoration.None
                 ),
+                color = if (todoItem.isCompleted) Color.Gray else Color.Black,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis
             )
         }
+
 
         // Иконка информации
         Icon(

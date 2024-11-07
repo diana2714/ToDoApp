@@ -168,7 +168,7 @@ fun NewTaskScreen(navController: NavController, oneNewTodoItem: (TodoItem) -> Un
                     Text(
                         text = SimpleDateFormat("d MMMM yyyy", Locale.getDefault()).format(it),
                         color = Color(0xFF007AFF),
-                        fontSize = 16.sp
+                        fontSize = 17.sp
                     )
                 }
             }
@@ -219,7 +219,7 @@ fun NewTaskScreen(navController: NavController, oneNewTodoItem: (TodoItem) -> Un
                 tint = deleteColor,
                 modifier = Modifier.size(24.dp)
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(9.dp))
             Text(
                 text = stringResource(R.string.Delete),
                 color = deleteColor,
